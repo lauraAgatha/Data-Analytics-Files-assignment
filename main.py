@@ -46,11 +46,11 @@ def find_password(cached_files):
     search_pw = "password"
     for file in cached_files:
         f = open(file, "r")
-        if search_pw in f.read():
-            #f.read().replace(" ", "")
-            password = f.read().split(":")
-            print(password)
-            print(file)
-
+        for line in f:
+            password = None
+            if search_pw in line:
+                password = line.split(": ")[1]
+                #print(password)
+                return password
 
 find_password(cached_files())
