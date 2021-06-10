@@ -5,9 +5,9 @@ import os
 import shutil
 import zipfile
 
-cache_dir = os.path.abspath("cache")
-# cache_dir = r'D:\Documenten\Trainingen\Wincademy\files\cache'
-zip_path = r'D:\Documenten\Trainingen\Wincademy\files\data.zip'
+folder = os.getcwd() # volgens de wincpy check klopt het nu, als ik normaal de code run in VS, moet hier het volgende achteraan geplakt:  + "\\" + "files"
+cache_dir = folder + "\cache"
+zip_path = folder + "\data.zip"
 
 # Excercise 1
 def clean_cache():
@@ -25,21 +25,17 @@ def cache_zip(zip_path, cache_dir):
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(cache_dir)
 
-print(cache_zip(zip_path, cache_dir))
+cache_zip(zip_path, cache_dir)
 
 # Excercise 3
 def cached_files():
     cached_files = []
     for file in os.listdir(cache_dir):
-        cached_files.append(f"{cache_dir}\{file}")
+        cached_files.append(os.path.join(cache_dir, file))
     return cached_files
 
 cached_files()
 
-
-# PLEASE READ THIS COMMENT:
-# I adjusted this assignment with your feedback and you explained to change the forloop as in the comments, which was what I did.
-# In both versions I got the password printed if you do print(password), but I still get thumbs down for the last find password.
 # Excercise 4
 def find_password(cached_files):
     search_pw = "password"
@@ -49,7 +45,8 @@ def find_password(cached_files):
         for line in f.readlines():
             password = None
             if search_pw in line:
-                password = line.split(": ")[1]
+                password = line.split(": ")[1][:-1]
+                print(password)
                 return password
 
 find_password(cached_files())
